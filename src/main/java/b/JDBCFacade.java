@@ -47,8 +47,7 @@ public class JDBCFacade implements DBFacade {
             ResultSet resultSet = statement.executeQuery();
             List<String[]> lista = new ArrayList<>();
             while (resultSet.next()) {
-                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-                int cantidadColumnas = resultSetMetaData.getColumnCount();
+                int cantidadColumnas = resultSet.getMetaData().getColumnCount();
                 String[] filas = new String[cantidadColumnas];
                 for (int i = 1; i <= cantidadColumnas; i++) {
                     filas[i - 1] = resultSet.getString(i);

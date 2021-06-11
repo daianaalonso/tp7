@@ -1,5 +1,6 @@
 package b;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,9 @@ public class Main {
         fachada.close();
 
         listaMapa.forEach(System.out::println);
+        for (String[] string : listaArreglo) {
+            System.out.println(Arrays.toString(string));
+        }
     }
 
 }
