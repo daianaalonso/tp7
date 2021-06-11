@@ -17,7 +17,8 @@ public class SetProxy implements Set<Telefono> {
     }
 
     private Set<Telefono> obtenerTelefonos() {
-        this.telefonos.addAll(this.personaDao.obtenerTelefonosPorIdPersona(this.idPersona));
+        if (this.isEmpty())
+            this.telefonos.addAll(this.personaDao.obtenerTelefonosPorIdPersona(this.idPersona));
         return this.telefonos;
     }
 
