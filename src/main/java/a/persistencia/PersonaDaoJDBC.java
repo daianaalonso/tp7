@@ -12,7 +12,7 @@ import java.util.Set;
 public class PersonaDaoJDBC implements PersonaDao {
 
     private Connection obtenerConexion() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/bd_alonso?useSSL=false";
+        String url = "jdbc:mysql://localhost:3306/alonso_bd?useSSL=false";
         String user = "root";
         String password = "";
         return DriverManager.getConnection(url, user, password);

@@ -1,9 +1,8 @@
 package b;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +12,7 @@ public class JDBCFacade implements DBFacade {
     @Override
     public void open() {
         try {
-            String url = "jdbc:mysql://localhost:3306/bd_alonso?useSSL=false";
+            String url = "jdbc:mysql://localhost:3306/alonso_bd?useSSL=false";
             String user = "root";
             String password = "";
             this.connection = DriverManager.getConnection(url, user, password);
@@ -25,22 +24,41 @@ public class JDBCFacade implements DBFacade {
     @Override
     public List<Map<String, String>> queryResultAsAsociation(String sql) {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            ResultSet resultSet = statement.executeQuery();
+            List<Map<String, String>> lista = new ArrayList<>();
+            while (resultSet.next()) {
+                Map<String, String> filas = new HashMap<>();
+                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                int cantidadColumnas = resultSetMetaData.getColumnCount();
+                for (int i = 1; i <= cantidadColumnas; i++) {
+                    filas.put(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+                }
+                lista.add(filas);
+            }
+            return lista;
         } catch (SQLException e) {
             throw new RuntimeException("No se pudo obtener la lista.", e);
         }
-
-        return null;
     }
 
     @Override
     public List<String[]> queryResultAsArray(String sql) {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            ResultSet resultSet = statement.executeQuery();
+            List<String[]> lista = new ArrayList<>();
+            while (resultSet.next()) {
+                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                int cantidadColumnas = resultSetMetaData.getColumnCount();
+                String[] filas = new String[cantidadColumnas];
+                for (int i = 1; i <= cantidadColumnas; i++) {
+                    filas[i - 1] = resultSet.getString(i);
+                }
+                lista.add(filas);
+            }
+            return lista;
         } catch (SQLException e) {
             throw new RuntimeException("No se pudo obtener la lista.", e);
         }
-        return null;
     }
 
     @Override

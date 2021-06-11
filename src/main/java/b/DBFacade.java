@@ -8,7 +8,7 @@ public interface DBFacade {
     /**
      * Abre una conexión a una base de datos
      */
-    void open() throws SQLException;
+    void open();
 
     /**
      * Ejecuta una sentencia SQL.
